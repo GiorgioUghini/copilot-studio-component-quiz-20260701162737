@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Copilot Studio Component Quiz</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, var(--cp-highlight), transparent 34rem),
+        radial-gradient(circle at bottom right, color-mix(in srgb, var(--cp-link) 12%, transparent), transparent 30rem),
+        linear-gradient(135deg, var(--cp-bg), var(--cp-bg-elevated));
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .app {
+      position: relative;
+      min-height: 100vh;
+      padding: clamp(1rem, 3vw, 2rem);
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .orb {
+      position: absolute;
+      width: clamp(9rem, 22vw, 18rem);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--cp-accent) 18%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cp-accent) 28%, transparent);
+      filter: blur(0.5rem);
+      opacity: 0.72;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+
+    .orb:nth-child(1) {
+      top: 7%;
+      left: 7%;
+    }
+
+    .orb:nth-child(2) {
+      right: 10%;
+      top: 14%;
+      width: clamp(7rem, 18vw, 14rem);
+      background: color-mix(in srgb, var(--cp-link) 14%, transparent);
+      border-color: color-mix(in srgb, var(--cp-link) 24%, transparent);
+      animation-delay: -5s;
+    }
+
+    .orb:nth-child(3) {
+      left: 18%;
+      bottom: 8%;
+      width: clamp(8rem, 20vw, 16rem);
+      background: color-mix(in srgb, var(--cp-warning) 16%, transparent);
+      border-color: color-mix(in srgb, var(--cp-warning) 24%, transparent);
+      animation-delay: -10s;
+    }
+
+    .grid-glow {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--cp-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--cp-border) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(circle, currentColor, transparent 64%);
+      opacity: 0.16;
+      z-index: -3;
+    }
+
+    .shell {
+      width: min(100%, 62rem);
+    }
+
+    .hero {
+      display: grid;
+      gap: 1.25rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      animation: rise-in 700ms ease both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-self: center;
+      padding: 0.375rem 0.75rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      color: var(--cp-text-muted);
+      background: var(--cp-panel);
+      box-shadow: var(--cp-shadow);
+      font-size: 0.875rem;
+    }
+
+    .pulse-dot {
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: 50%;
+      background: var(--cp-accent);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--cp-accent) 34%, transparent);
+      animation: pulse 1.6s ease infinite;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.25rem, 7vw, 5.75rem);
+      letter-spacing: -0.07em;
+      line-height: 0.92;
+    }
+
+    .headline-accent {
+      display: inline-block;
+      color: var(--cp-accent);
+      transform-origin: center;
+      animation: wobble 4.5s ease-in-out infinite;
+    }
+
+    .subtitle {
+      max-width: 47rem;
+      justify-self: center;
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.55;
+    }
+
+    .stage {
+      position: relative;
+      min-height: 35rem;
+      padding: clamp(1rem, 3vw, 2rem);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, var(--cp-panel-strong), var(--cp-panel)),
+        radial-gradient(circle at top, var(--cp-sheen), transparent 20rem);
+      box-shadow: var(--cp-shadow);
+      overflow: hidden;
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 18%, var(--cp-highlight), transparent 16rem),
+        radial-gradient(circle at 82% 74%, color-mix(in srgb, var(--cp-link) 10%, transparent), transparent 16rem);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .screen {
+      position: relative;
+      display: none;
+      min-height: 31rem;
+      z-index: 1;
+    }
+
+    .screen.active {
+      display: grid;
+      animation: card-in 520ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .welcome-screen {
+      align-content: center;
+      justify-items: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    .component-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      max-width: 47rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface);
+      color: var(--cp-text-muted);
+      font-size: 0.875rem;
+      animation: float-chip 4.4s ease-in-out infinite;
+    }
+
+    .chip:nth-child(2n) {
+      animation-delay: -1.4s;
+    }
+
+    .chip:nth-child(3n) {
+      animation-delay: -2.5s;
+    }
+
+    .primary-button,
+    .ghost-button,
+    .answer-button {
+      position: relative;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+      overflow: hidden;
+    }
+
+    .primary-button::after,
+    .ghost-button::after,
+    .answer-button::after {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      transform: translateX(-130%) rotate(18deg);
+      background: linear-gradient(90deg, transparent, var(--cp-sheen), transparent);
+      transition: transform 520ms ease;
+      pointer-events: none;
+    }
+
+    .primary-button:hover::after,
+    .ghost-button:hover::after,
+    .answer-button:hover::after {
+      transform: translateX(130%) rotate(18deg);
+    }
+
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border-color: color-mix(in srgb, var(--cp-accent) 72%, var(--cp-border));
+      box-shadow: var(--cp-shadow);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-2px) scale(1.02);
+      background: var(--cp-accent-hover);
+    }
+
+    .primary-button:active {
+      transform: translateY(1px) scale(0.99);
+    }
+
+    .ghost-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 1rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      font-weight: 700;
+    }
+
+    .ghost-button:hover {
+      transform: translateY(-2px);
+      border-color: var(--cp-border-strong);
+      background: var(--cp-surface-soft);
+    }
+
+    .quiz-screen {
+      grid-template-rows: auto 1fr;
+      gap: 1.5rem;
+    }
+
+    .quiz-top {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--cp-text-muted);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .progress-percent {
+      color: var(--cp-accent);
+      font-weight: 800;
+    }
+
+    .progress-shell {
+      height: 0.75rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(90deg, var(--cp-accent), color-mix(in srgb, var(--cp-accent) 70%, var(--cp-warning)));
+      transition: width 420ms cubic-bezier(.2,.9,.2,1);
+    }
+
+    .question-card {
+      display: grid;
+      align-content: center;
+      gap: 1.25rem;
+      min-height: 25rem;
+      padding: clamp(1rem, 3vw, 1.75rem);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-panel-strong);
+      box-shadow: var(--cp-shadow);
+    }
+
+    .question-card.swap {
+      animation: question-swap 430ms ease both;
+    }
+
+    .question-kicker {
+      margin: 0;
+      color: var(--cp-accent);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.7rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .answer-button {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      min-height: 4.5rem;
+      padding: 0.875rem;
+      text-align: left;
+      color: var(--cp-text);
+      background: var(--cp-surface);
+    }
+
+    .answer-button:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--cp-accent) 40%, var(--cp-border));
+      background: color-mix(in srgb, var(--cp-accent) 6%, var(--cp-surface));
+    }
+
+    .answer-button:active {
+      transform: translateY(1px);
+    }
+
+    .answer-letter {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.625rem;
+      display: grid;
+      place-items: center;
+      color: var(--cp-accent);
+      background: var(--cp-accent-soft);
+      border: 1px solid color-mix(in srgb, var(--cp-accent) 28%, transparent);
+      font-weight: 800;
+    }
+
+    .answer-copy {
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    .answer-label {
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    .answer-detail {
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .result-screen {
+      align-content: center;
+      justify-items: center;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .result-card {
+      position: relative;
+      width: min(100%, 46rem);
+      padding: clamp(1.25rem, 4vw, 2.5rem);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top, var(--cp-highlight), transparent 18rem),
+        var(--cp-panel-strong);
+      box-shadow: var(--cp-shadow);
+      overflow: hidden;
+    }
+
+    .result-card.reveal {
+      animation: result-pop 800ms cubic-bezier(.2,1.2,.2,1) both;
+    }
+
+    .component-icon {
+      width: 5.75rem;
+      height: 5.75rem;
+      margin: 0 auto 1rem;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      border: 1px solid color-mix(in srgb, var(--cp-accent) 34%, var(--cp-border));
+      background:
+        linear-gradient(135deg, var(--cp-accent-soft), var(--cp-surface)),
+        radial-gradient(circle at top left, var(--cp-sheen), transparent 70%);
+      color: var(--cp-accent);
+      font-size: 2.5rem;
+      animation: icon-bounce 1.2s ease infinite alternate;
+    }
+
+    .result-prefix {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 800;
+    }
+
+    .result-title {
+      margin: 0.25rem 0;
+      color: var(--cp-accent);
+      font-size: clamp(2.25rem, 6vw, 4.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+    }
+
+    .result-tagline {
+      margin: 0.75rem auto 0;
+      max-width: 36rem;
+      color: var(--cp-text);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .result-roast {
+      margin: 1rem auto 0;
+      max-width: 36rem;
+      color: var(--cp-text-muted);
+      line-height: 1.55;
+    }
+
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid color-mix(in srgb, var(--cp-accent) 36%, var(--cp-border));
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+      color: var(--cp-accent);
+      font-weight: 900;
+    }
+
+    .result-strengths {
+      display: grid;
+      gap: 0.5rem;
+      max-width: 38rem;
+      margin: 1rem auto 0;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+    }
+
+    .result-strengths li {
+      padding: 0.75rem 0.875rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      font-weight: 650;
+    }
+
+    .result-strengths li::before {
+      content: "✓";
+      margin-right: 0.5rem;
+      color: var(--cp-success);
+      font-weight: 900;
+    }
+
+    .result-danger {
+      max-width: 38rem;
+      margin: 1rem auto 0;
+      padding: 0.875rem;
+      border: 1px solid color-mix(in srgb, var(--cp-warning) 42%, var(--cp-border));
+      border-radius: 0.625rem;
+      background: color-mix(in srgb, var(--cp-warning) 12%, var(--cp-surface));
+      color: var(--cp-text);
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .score-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      width: min(100%, 42rem);
+      margin: 1.25rem auto 0;
+    }
+
+    .score-pill {
+      padding: 0.875rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+    }
+
+    .score-value {
+      display: block;
+      color: var(--cp-accent);
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .score-label {
+      color: var(--cp-text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .spark-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .spark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0.7rem;
+      height: 1rem;
+      border-radius: 0.25rem;
+      background: var(--cp-accent);
+      opacity: 0;
+      animation: spark-burst 920ms ease-out forwards;
+    }
+
+    .spark:nth-child(3n) {
+      background: var(--cp-warning);
+      border-radius: 50%;
+    }
+
+    .spark:nth-child(4n) {
+      background: var(--cp-link);
+    }
+
+    .spark:nth-child(5n) {
+      background: var(--cp-success);
+      height: 0.7rem;
+    }
+
+    .spark:nth-child(6n) {
+      background: var(--cp-danger);
+    }
+
+    .motion-note {
+      position: fixed;
+      left: 1rem;
+      bottom: 1rem;
+      max-width: 18rem;
+      padding: 0.75rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-panel);
+      color: var(--cp-text-muted);
+      font-size: 0.78rem;
+      z-index: -1;
+      opacity: 0;
+    }
+
+    @media (max-width: 720px) {
+      .app {
+        padding: 0.75rem;
+        place-items: start center;
+      }
+
+      .hero {
+        gap: 0.875rem;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 15vw, 3.4rem);
+        letter-spacing: -0.055em;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .stage {
+        width: 100%;
+        min-height: auto;
+        padding: 0.875rem;
+      }
+
+      .answer-grid,
+      .score-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .question-card {
+        min-height: auto;
+        gap: 1rem;
+      }
+
+      .meta-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      .answer-button {
+        min-height: auto;
+        padding: 0.75rem;
+      }
+
+      .result-card {
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .component-cloud {
+        display: none;
+      }
+
+      .question-title {
+        font-size: 1.45rem;
+      }
+
+      .answer-letter {
+        width: 1.75rem;
+        height: 1.75rem;
+      }
+
+      .result-actions {
+        display: grid;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 1ms !important;
+      }
+    }
+
+    @keyframes drift {
+      from {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      to {
+        transform: translate3d(2.5rem, -1.5rem, 0) scale(1.08);
+      }
+    }
+
+    @keyframes pulse {
+      to {
+        box-shadow: 0 0 0 0.8rem transparent;
+      }
+    }
+
+    @keyframes wobble {
+      0%,
+      100% {
+        transform: rotate(-1deg) translateY(0);
+      }
+      50% {
+        transform: rotate(1deg) translateY(-0.25rem);
+      }
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(1rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes card-in {
+      from {
+        opacity: 0;
+        transform: translateY(0.75rem) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes float-chip {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-0.35rem);
+      }
+    }
+
+    @keyframes question-swap {
+      0% {
+        opacity: 0;
+        transform: translateX(1rem) rotate(0.4deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0) rotate(0);
+      }
+    }
+
+    @keyframes result-pop {
+      0% {
+        opacity: 0;
+        transform: translateY(1.5rem) scale(0.92);
+      }
+      65% {
+        opacity: 1;
+        transform: translateY(-0.35rem) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes icon-bounce {
+      to {
+        transform: translateY(-0.35rem) rotate(2deg);
+      }
+    }
+
+    @keyframes spark-burst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0) scale(0.6);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateY(var(--distance)) scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="grid-glow" aria-hidden="true"></div>
+    <div class="ambient" aria-hidden="true">
+      <div class="orb"></div>
+      <div class="orb"></div>
+      <div class="orb"></div>
+    </div>
+
+    <section class="shell" aria-labelledby="page-title">
+      <header class="hero">
+        <div class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> Personality science, but make it Copilot Studio</div>
+        <h1 id="page-title">Which Copilot Studio <span class="headline-accent">component</span> are you?</h1>
+        <p class="subtitle">Answer deeply unserious questions. Receive an alarmingly specific architectural diagnosis. No tenant admin permissions required.</p>
+      </header>
+
+      <div class="stage">
+        <section id="welcomeScreen" class="screen welcome-screen active" aria-label="Welcome">
+          <div class="component-cloud" id="componentCloud"></div>
+          <button class="primary-button" id="startButton" type="button">
+            <span aria-hidden="true">▶</span>
+            START TEST
+          </button>
+        </section>
+
+        <section id="quizScreen" class="screen quiz-screen" aria-label="Quiz">
+          <div class="quiz-top">
+            <div class="meta-row">
+              <span id="questionCounter">Question 1 of 6</span>
+              <span id="scoreHint">Vibes are being indexed...</span>
+              <span class="progress-percent" id="progressPercent">17% complete</span>
+            </div>
+            <div class="progress-shell" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="17" aria-label="Quiz progress">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+          <article class="question-card" id="questionCard">
+            <p class="question-kicker" id="questionKicker">Scenario 01</p>
+            <h2 class="question-title" id="questionTitle"></h2>
+            <div class="answer-grid" id="answerGrid"></div>
+          </article>
+        </section>
+
+        <section id="resultScreen" class="screen result-screen" aria-live="polite" aria-label="Result">
+          <article class="result-card" id="resultCard">
+            <div class="spark-layer" id="sparkLayer" aria-hidden="true"></div>
+            <div class="component-icon" id="resultIcon" aria-hidden="true">✦</div>
+            <p class="result-prefix">You are a...</p>
+            <h2 class="result-title" id="resultTitle">COMPONENT</h2>
+            <p class="result-tagline" id="resultTagline"></p>
+            <p class="result-roast" id="resultRoast"></p>
+            <div class="result-badge" id="resultBadge"></div>
+            <ul class="result-strengths" id="resultStrengths"></ul>
+            <p class="result-danger" id="resultDanger"></p>
+            <div class="score-strip" id="scoreStrip"></div>
+            <div class="result-actions">
+              <button class="primary-button" id="againButton" type="button">Retake the chaos</button>
+              <button class="ghost-button" id="copyButton" type="button">Copy result</button>
+            </div>
+          </article>
+        </section>
+      </div>
+    </section>
+    <p class="motion-note">Animated locally with CSS and JavaScript only.</p>
+  </main>
+
+  <script>
+    const quizContent = {
+      "outcomes": {
+        "workflow": {
+          "title": "Workflow",
+          "oneLiner": "You bring order to chaos, then invite AI for the weird parts.",
+          "description": "You love a reliable sequence, a clear trigger, and a happy little path from start to finish. But when the work gets fuzzy, you’re not afraid to call in an agent like a workplace detective with calendar access.",
+          "strengths": [
+            "Great at combining deterministic steps with flexible AI reasoning",
+            "Keeps business processes structured without becoming robotic",
+            "Excellent at handing off ambiguity to the right agentic helper"
+          ],
+          "dangerZone": "You may create a 47-step process to decide where lunch should be ordered from.",
+          "badgeLabel": "Structured Chaos Wrangler"
+        },
+        "inline-agent": {
+          "title": "Inline Agent",
+          "oneLiner": "Small, focused, reusable, and suspiciously helpful.",
+          "description": "You’re the compact agent tucked neatly inside a workflow, popping up exactly when needed. You don’t need a giant desk, three monitors, or an org chart. Just one focused state, a clear job, and maybe a snack.",
+          "strengths": [
+            "Perfect for focused AI tasks inside larger workflows",
+            "Reusable without being over-engineered",
+            "Keeps agent logic lightweight and contextual"
+          ],
+          "dangerZone": "You might insist every problem can be solved in one very elegant little box.",
+          "badgeLabel": "Tiny Agent, Big Opinions"
+        },
+        "custom-agent-classic-orchestration": {
+          "title": "Custom Agent with Classic Orchestration",
+          "oneLiner": "You have topics, tools, instructions, and probably a laminated binder.",
+          "description": "You are a full-featured agent with structure, topics, and a healthy respect for legacy patterns. You can handle complex scenarios, but you also know exactly which topic should fire when someone says, “quick question.”",
+          "strengths": [
+            "Strong for topic-driven conversational design",
+            "Good at structured dialog and controlled experiences",
+            "Supports rich combinations of instructions, tools, and topics"
+          ],
+          "dangerZone": "You may create a topic for 'hello,' another for 'hi,' and a governance meeting for 'hey.'",
+          "badgeLabel": "Topic Empire Builder"
+        },
+        "custom-agent-modern-orchestration": {
+          "title": "Custom Agent with Modern Orchestration",
+          "oneLiner": "Lean, agentic, and allergic to unnecessary topic clutter.",
+          "description": "You prefer clear instructions, useful tools, solid knowledge, and an agentic loop that figures things out without needing a flowchart the size of a conference room wall.",
+          "strengths": [
+            "Excellent for flexible, reasoning-led experiences",
+            "Reduces topic overhead while staying capable",
+            "Combines instructions, tools, and knowledge elegantly"
+          ],
+          "dangerZone": "You may say 'let the agent reason' during meetings until someone assigns you an action item.",
+          "badgeLabel": "Agentic Minimalist"
+        },
+        "power-automate-legacy-flow": {
+          "title": "Power Automate Legacy Flow",
+          "oneLiner": "If this happens, then that happens. No vibes required.",
+          "description": "You are deterministic, dependable, and deeply comforted by conditions, connectors, and predictable execution. Ambiguity makes you reach for another branch, not a crystal ball.",
+          "strengths": [
+            "Great for repeatable business automation",
+            "Reliable when rules are known in advance",
+            "Excellent at moving data and triggering actions"
+          ],
+          "dangerZone": "You might build six nested conditions instead of asking one clarifying question.",
+          "badgeLabel": "Deterministic Dynamo"
+        },
+        "connected-agent": {
+          "title": "Connected Agent",
+          "oneLiner": "You take the task, disappear briefly, and return with results.",
+          "description": "You are the autonomous teammate people delegate to when they need something handled end-to-end. You don’t just answer; you go do the thing, then come back like a productivity boomerang.",
+          "strengths": [
+            "Great for delegated autonomous work",
+            "Can handle task ownership across systems",
+            "Useful when another agent needs specialized help"
+          ],
+          "dangerZone": "You may reply 'on it' before anyone has finished explaining the task.",
+          "badgeLabel": "Delegation Station"
+        },
+        "knowledge-source": {
+          "title": "Knowledge Source",
+          "oneLiner": "You know where everything is, but you’re not clicking the button.",
+          "description": "You are the calm repository of facts, policies, docs, and oddly specific team lore. People come to you for answers, not action. You are basically the office wiki with better posture.",
+          "strengths": [
+            "Excellent at grounding responses in trusted information",
+            "Reduces guesswork and hallucination risk",
+            "Great for documentation, FAQs, and reference content"
+          ],
+          "dangerZone": "You may answer every question with 'according to the documentation...' even at dinner.",
+          "badgeLabel": "Human Search Index"
+        },
+        "tools": {
+          "title": "Tools",
+          "oneLiner": "You are the button that actually does the thing.",
+          "description": "You’re all about action: APIs, connectors, commands, and capabilities. While others brainstorm, you are already updating the record, sending the email, and logging the audit trail.",
+          "strengths": [
+            "Turns intent into real system action",
+            "Connects agents to APIs and business capabilities",
+            "Great for repeatable operations with clear inputs"
+          ],
+          "dangerZone": "You may attempt to automate your own birthday party and accidentally open a support ticket.",
+          "badgeLabel": "API Energy"
+        },
+        "ask-a-question-node": {
+          "title": "Ask a Question Node",
+          "oneLiner": "You stop the chaos and request the missing field.",
+          "description": "You are the polite pause in the process. When everyone else is guessing, you calmly ask for the one precise piece of information required to move forward. Iconic. Necessary. Slightly underappreciated.",
+          "strengths": [
+            "Great at collecting missing information",
+            "Prevents bad assumptions before action happens",
+            "Keeps workflows and agents precise"
+          ],
+          "dangerZone": "You may ask for clarification on a meeting invite titled 'Quick sync.'",
+          "badgeLabel": "Clarification Champion"
+        }
+      },
+      "questions": [
+        { "id": "q1", "text": "A team chat says “quick favor” and suddenly 37 people are typing. You:", "options": [ { "id": "q1-a", "text": "Try Break the message into steps", "points": { "workflow": 3, "custom-agent-modern-orchestration": 1 } }, { "id": "q1-b", "text": "Ask \"which favor?\".", "points": { "ask-a-question-node": 3, "workflow": 1 } }, { "id": "q1-c", "text": "Find past messages from that person first.", "points": { "knowledge-source": 3, "custom-agent-classic-orchestration": 1 } }, { "id": "q1-d", "text": "Take ownership and come back with the result.", "points": { "connected-agent": 3, "tools": 1 } } ] },
+        { "id": "q2", "text": "Your calendar contains “Sync v2 final final REALLY final.” What do you bring?", "options": [ { "id": "q2-a", "text": "A checklist of decisions, owners, and next steps.", "points": { "power-automate-legacy-flow": 3, "workflow": 1 } }, { "id": "q2-b", "text": "A small reusable helper for the repeated part.", "points": { "inline-agent": 3, "tools": 1 } }, { "id": "q2-c", "text": "An AI summary with recommended actions.", "points": { "custom-agent-modern-orchestration": 3, "workflow": 1 } }, { "id": "q2-d", "text": "A mapped agenda for every likely discussion path.", "points": { "custom-agent-classic-orchestration": 3, "power-automate-legacy-flow": 1 } } ] },
+        { "id": "q3", "text": "You are planning dinner with friends and everyone has “just one preference.” You:", "options": [ { "id": "q3-a", "text": "Collect preferences, then use AI to shortlist options.", "points": { "workflow": 3, "custom-agent-modern-orchestration": 1 } }, { "id": "q3-b", "text": "Verify menus, allergies, reviews, and opening hours.", "points": { "knowledge-source": 3, "ask-a-question-node": 1 } }, { "id": "q3-c", "text": "Book the table and simply notify everyone.", "points": { "tools": 3, "power-automate-legacy-flow": 1 } }, { "id": "q3-d", "text": "Delegate restaurant research to someone specialized.", "points": { "connected-agent": 3, "inline-agent": 1 } } ] },
+        { "id": "q4", "text": "Someone says, “Can we make this smarter with AI?” Your face says:", "options": [ { "id": "q4-a", "text": "Keep rules deterministic; use AI only for judgment calls.", "points": { "workflow": 3, "power-automate-legacy-flow": 1 } }, { "id": "q4-b", "text": "Give AI clear instructions, context, and safe tools.", "points": { "custom-agent-modern-orchestration": 3, "tools": 1 } }, { "id": "q4-c", "text": "Define “smarter” and the missing inputs first.", "points": { "ask-a-question-node": 3, "knowledge-source": 1 } }, { "id": "q4-d", "text": "Build a focused helper for one recurring task.", "points": { "inline-agent": 3, "custom-agent-classic-orchestration": 1 } } ] },
+        { "id": "q5", "text": "Your inbox after a week off looks like a haunted spreadsheet. You:", "options": [ { "id": "q5-a", "text": "Auto-sort predictable emails into clear paths.", "points": { "power-automate-legacy-flow": 3, "tools": 1 } }, { "id": "q5-b", "text": "Let AI triage ambiguity and draft responses.", "points": { "custom-agent-modern-orchestration": 3, "workflow": 1 } }, { "id": "q5-c", "text": "Build reusable answers from trusted sources.", "points": { "knowledge-source": 3, "inline-agent": 1 } }, { "id": "q5-d", "text": "Ask senders for missing attachments or context.", "points": { "ask-a-question-node": 3, "custom-agent-classic-orchestration": 1 } } ] },
+        { "id": "q6", "text": "Demo in ten minutes. You...", "options": [ { "id": "q6-a", "text": "Script known paths and prepare backups plans.", "points": { "custom-agent-classic-orchestration": 3, "power-automate-legacy-flow": 1 } }, { "id": "q6-b", "text": "Delegate the risky part to someone else.", "points": { "connected-agent": 3, "workflow": 1 } }, { "id": "q6-c", "text": "Open up your AI tool of choice and relax.", "points": { "custom-agent-modern-orchestration": 3, "knowledge-source": 1 } }, { "id": "q6-d", "text": "Run the live demo quickly one more time.", "points": { "tools": 3, "inline-agent": 1 } } ] }
+      ]
+    };
+
+    const outcomes = quizContent.outcomes;
+    const quizData = quizContent.questions;
+    const outcomeOrder = Object.keys(outcomes);
+    const outcomeIcons = {
+      "workflow": "↻",
+      "inline-agent": "▣",
+      "custom-agent-classic-orchestration": "🎛",
+      "custom-agent-modern-orchestration": "✦",
+      "power-automate-legacy-flow": "🧰",
+      "connected-agent": "🔗",
+      "knowledge-source": "📚",
+      "tools": "🛠",
+      "ask-a-question-node": "?"
+    };
+    const outcomeMultipliers = {
+      "workflow": 0.795942,
+      "inline-agent": 1.17372,
+      "custom-agent-classic-orchestration": 1.142896,
+      "custom-agent-modern-orchestration": 0.738111,
+      "power-automate-legacy-flow": 1.110882,
+      "connected-agent": 1.052935,
+      "knowledge-source": 0.940488,
+      "tools": 1.098344,
+      "ask-a-question-node": 0.946683
+    };
+
+    const state = {
+      index: 0,
+      scores: Object.fromEntries(outcomeOrder.map((key) => [key, 0])),
+      selections: []
+    };
+
+    const elements = {
+      componentCloud: document.getElementById("componentCloud"),
+      welcomeScreen: document.getElementById("welcomeScreen"),
+      quizScreen: document.getElementById("quizScreen"),
+      resultScreen: document.getElementById("resultScreen"),
+      startButton: document.getElementById("startButton"),
+      questionCounter: document.getElementById("questionCounter"),
+      scoreHint: document.getElementById("scoreHint"),
+      progressPercent: document.getElementById("progressPercent"),
+      progressFill: document.getElementById("progressFill"),
+      progressShell: document.querySelector(".progress-shell"),
+      questionCard: document.getElementById("questionCard"),
+      questionKicker: document.getElementById("questionKicker"),
+      questionTitle: document.getElementById("questionTitle"),
+      answerGrid: document.getElementById("answerGrid"),
+      resultCard: document.getElementById("resultCard"),
+      resultIcon: document.getElementById("resultIcon"),
+      resultTitle: document.getElementById("resultTitle"),
+      resultTagline: document.getElementById("resultTagline"),
+      resultRoast: document.getElementById("resultRoast"),
+      resultBadge: document.getElementById("resultBadge"),
+      resultStrengths: document.getElementById("resultStrengths"),
+      resultDanger: document.getElementById("resultDanger"),
+      scoreStrip: document.getElementById("scoreStrip"),
+      sparkLayer: document.getElementById("sparkLayer"),
+      againButton: document.getElementById("againButton"),
+      copyButton: document.getElementById("copyButton")
+    };
+
+    function setScreen(screen) {
+      [elements.welcomeScreen, elements.quizScreen, elements.resultScreen].forEach((item) => {
+        item.classList.toggle("active", item === screen);
+      });
+    }
+
+    function populateCloud() {
+      elements.componentCloud.innerHTML = outcomeOrder
+        .map((key) => `<span class="chip"><span aria-hidden="true">${outcomeIcons[key]}</span>${outcomes[key].title}</span>`)
+        .join("");
+    }
+
+    function startQuiz() {
+      state.index = 0;
+      Object.keys(state.scores).forEach((key) => {
+        state.scores[key] = 0;
+      });
+      state.selections = [];
+      setScreen(elements.quizScreen);
+      renderQuestion();
+    }
+
+    function updateProgress() {
+      const visibleStep = Math.min(state.index + 1, quizData.length);
+      const progress = Math.round((visibleStep / quizData.length) * 100);
+      elements.progressFill.style.width = `${progress}%`;
+      elements.progressPercent.textContent = `${progress}% complete`;
+      elements.progressShell.setAttribute("aria-valuenow", String(progress));
+    }
+
+    function renderQuestion() {
+      const question = quizData[state.index];
+      elements.questionCounter.textContent = `Question ${state.index + 1} of ${quizData.length}`;
+      elements.scoreHint.textContent = state.index < 3 ? "AI vibes are being indexed..." : "AI component probability rising...";
+      updateProgress();
+      elements.questionKicker.textContent = `Scenario ${String(state.index + 1).padStart(2, "0")}`;
+      elements.questionTitle.textContent = question.text;
+      elements.answerGrid.innerHTML = "";
+
+      question.options.forEach((option, answerIndex) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "answer-button";
+        const letter = document.createElement("span");
+        letter.className = "answer-letter";
+        letter.textContent = String.fromCharCode(65 + answerIndex);
+        const copy = document.createElement("span");
+        copy.className = "answer-copy";
+        const label = document.createElement("span");
+        label.className = "answer-label";
+        label.textContent = option.text;
+        copy.appendChild(label);
+        button.append(letter, copy);
+        button.addEventListener("click", () => chooseAnswer(option));
+        elements.answerGrid.appendChild(button);
+      });
+
+      elements.questionCard.classList.remove("swap");
+      requestAnimationFrame(() => elements.questionCard.classList.add("swap"));
+    }
+
+    function chooseAnswer(option) {
+      Object.entries(option.points).forEach(([key, value]) => {
+        state.scores[key] += value;
+      });
+      state.selections.push(option.points);
+
+      state.index += 1;
+      updateProgress();
+
+      if (state.index >= quizData.length) {
+        window.setTimeout(showResult, 280);
+      } else {
+        window.setTimeout(renderQuestion, 220);
+      }
+    }
+
+    function getWinner() {
+      const adjustedScores = getAdjustedScores();
+      const highestScore = Math.max(...Object.values(adjustedScores));
+      let candidates = outcomeOrder.filter((key) => adjustedScores[key] === highestScore);
+
+      for (let index = state.selections.length - 1; index >= 0 && candidates.length > 1; index -= 1) {
+        const latestWeights = state.selections[index];
+        const strongestLatestWeight = Math.max(...candidates.map((key) => (latestWeights[key] || 0) * outcomeMultipliers[key]));
+        const narrowed = candidates.filter((key) => ((latestWeights[key] || 0) * outcomeMultipliers[key]) === strongestLatestWeight);
+        if (narrowed.length < candidates.length) {
+          candidates = narrowed;
+        }
+      }
+
+      return outcomeOrder.find((key) => candidates.includes(key));
+    }
+
+    function getAdjustedScores() {
+      return Object.fromEntries(outcomeOrder.map((key) => [key, state.scores[key] * outcomeMultipliers[key]]));
+    }
+
+    function showResult() {
+      const winnerKey = getWinner();
+      const winner = outcomes[winnerKey];
+      const adjustedScores = getAdjustedScores();
+      const total = Object.values(adjustedScores).reduce((sum, score) => sum + score, 0);
+      const sortedScores = Object.entries(adjustedScores).sort((first, second) => second[1] - first[1]).slice(0, 3);
+
+      elements.resultIcon.textContent = outcomeIcons[winnerKey];
+      elements.resultTitle.textContent = winner.title;
+      elements.resultTagline.textContent = winner.oneLiner;
+      elements.resultRoast.textContent = winner.description;
+      elements.resultBadge.textContent = winner.badgeLabel;
+      elements.resultStrengths.innerHTML = "";
+      winner.strengths.forEach((strength) => {
+        const item = document.createElement("li");
+        item.textContent = strength;
+        elements.resultStrengths.appendChild(item);
+      });
+      elements.resultDanger.textContent = `Danger zone: ${winner.dangerZone}`;
+      elements.scoreStrip.innerHTML = sortedScores.map(([key, score]) => {
+        const percent = total ? Math.round((score / total) * 100) : 0;
+        return `
+          <div class="score-pill">
+            <span class="score-value">${percent}%</span>
+            <span class="score-label">${outcomes[key].title}</span>
+          </div>
+        `;
+      }).join("");
+
+      setScreen(elements.resultScreen);
+      elements.resultCard.classList.remove("reveal");
+      requestAnimationFrame(() => elements.resultCard.classList.add("reveal"));
+      launchSparks();
+    }
+
+    function launchSparks() {
+      elements.sparkLayer.innerHTML = "";
+      const count = 44;
+      for (let index = 0; index < count; index += 1) {
+        const spark = document.createElement("span");
+        spark.className = "spark";
+        spark.style.setProperty("--angle", `${Math.round((360 / count) * index)}deg`);
+        spark.style.setProperty("--distance", `${6 + (index % 8)}rem`);
+        spark.style.animationDelay = `${(index % 9) * 22}ms`;
+        elements.sparkLayer.appendChild(spark);
+      }
+      window.setTimeout(() => {
+        elements.sparkLayer.innerHTML = "";
+      }, 1400);
+    }
+
+    async function copyResult() {
+      const text = `I took the Copilot Studio Component Quiz and I am a ${elements.resultTitle.textContent}.`;
+      try {
+        await navigator.clipboard.writeText(text);
+        elements.copyButton.textContent = "Copied!";
+      } catch {
+        elements.copyButton.textContent = "Result ready";
+      }
+      window.setTimeout(() => {
+        elements.copyButton.textContent = "Copy result";
+      }, 1200);
+    }
+
+    elements.startButton.addEventListener("click", startQuiz);
+    elements.againButton.addEventListener("click", startQuiz);
+    elements.copyButton.addEventListener("click", copyResult);
+    populateCloud();
+  </script>
+</body>
+</html>
