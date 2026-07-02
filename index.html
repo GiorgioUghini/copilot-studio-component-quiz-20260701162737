@@ -907,11 +907,11 @@ html[data-theme="dark"] {
         <section id="quizScreen" class="screen quiz-screen" aria-label="Quiz">
           <div class="quiz-top">
             <div class="meta-row">
-              <span id="questionCounter">Question 1 of 6</span>
+              <span id="questionCounter">Question 1 of 8</span>
               <span id="scoreHint">Vibes are being indexed...</span>
-              <span class="progress-percent" id="progressPercent">17% complete</span>
+              <span class="progress-percent" id="progressPercent">13% complete</span>
             </div>
-            <div class="progress-shell" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="17" aria-label="Quiz progress">
+            <div class="progress-shell" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="13" aria-label="Quiz progress">
               <div class="progress-fill" id="progressFill"></div>
             </div>
           </div>
@@ -948,122 +948,208 @@ html[data-theme="dark"] {
   <script>
     const quizContent = {
       "outcomes": {
-        "workflow": {
-          "title": "Workflow",
-          "oneLiner": "You bring order to chaos, then invite AI for the weird parts.",
-          "description": "You love a reliable sequence, a clear trigger, and a happy little path from start to finish. But when the work gets fuzzy, you’re not afraid to call in an agent like a workplace detective with calendar access.",
+        "ask-a-question-node": {
+          "title": "\"Ask a Question\" Node",
+          "oneLiner": "You stop the chaos and collect the missing field.",
+          "description": "You are the classic-orchestration pause button with social skills. When everyone is guessing, you ask the one precise question that prevents a production incident and three follow-up meetings.",
           "strengths": [
-            "Great at combining deterministic steps with flexible AI reasoning",
-            "Keeps business processes structured without becoming robotic",
-            "Excellent at handing off ambiguity to the right agentic helper"
+            "Collects missing information before action happens",
+            "Keeps classic flows precise and user-guided",
+            "Prevents confident nonsense from entering the process"
           ],
-          "dangerZone": "You may create a 47-step process to decide where lunch should be ordered from.",
-          "badgeLabel": "Structured Chaos Wrangler"
-        },
-        "inline-agent": {
-          "title": "Inline Agent",
-          "oneLiner": "Small, focused, reusable, and suspiciously helpful.",
-          "description": "You’re the compact agent tucked neatly inside a workflow, popping up exactly when needed. You don’t need a giant desk, three monitors, or an org chart. Just one focused state, a clear job, and maybe a snack.",
-          "strengths": [
-            "Perfect for focused AI tasks inside larger workflows",
-            "Reusable without being over-engineered",
-            "Keeps agent logic lightweight and contextual"
-          ],
-          "dangerZone": "You might insist every problem can be solved in one very elegant little box.",
-          "badgeLabel": "Tiny Agent, Big Opinions"
-        },
-        "custom-agent-classic-orchestration": {
-          "title": "Custom Agent with Classic Orchestration",
-          "oneLiner": "You have topics, tools, instructions, and probably a laminated binder.",
-          "description": "You are a full-featured agent with structure, topics, and a healthy respect for legacy patterns. You can handle complex scenarios, but you also know exactly which topic should fire when someone says, “quick question.”",
-          "strengths": [
-            "Strong for topic-driven conversational design",
-            "Good at structured dialog and controlled experiences",
-            "Supports rich combinations of instructions, tools, and topics"
-          ],
-          "dangerZone": "You may create a topic for 'hello,' another for 'hi,' and a governance meeting for 'hey.'",
-          "badgeLabel": "Topic Empire Builder"
+          "dangerZone": "You may ask for clarification on a meeting called 'quick sync.'",
+          "badgeLabel": "Clarification Champion"
         },
         "custom-agent-modern-orchestration": {
           "title": "Custom Agent with Modern Orchestration",
-          "oneLiner": "Lean, agentic, and allergic to unnecessary topic clutter.",
-          "description": "You prefer clear instructions, useful tools, solid knowledge, and an agentic loop that figures things out without needing a flowchart the size of a conference room wall.",
+          "oneLiner": "You think, act, observe, then think again like it is cardio.",
+          "description": "You are the agentic loop: Think, Act, Observe, Think. You prefer goals, instructions, tools, knowledge, and enough reasoning room to solve the problem without building a topic maze.",
           "strengths": [
-            "Excellent for flexible, reasoning-led experiences",
-            "Reduces topic overhead while staying capable",
-            "Combines instructions, tools, and knowledge elegantly"
+            "Handles ambiguous work with an agentic loop",
+            "Uses tools and knowledge dynamically",
+            "Keeps modern agents lean and flexible"
           ],
-          "dangerZone": "You may say 'let the agent reason' during meetings until someone assigns you an action item.",
-          "badgeLabel": "Agentic Minimalist"
+          "dangerZone": "You may say 'let the loop decide' and watch the room become nervous.",
+          "badgeLabel": "Agentic Loop Enthusiast"
         },
-        "power-automate-legacy-flow": {
-          "title": "Power Automate Legacy Flow",
-          "oneLiner": "If this happens, then that happens. No vibes required.",
-          "description": "You are deterministic, dependable, and deeply comforted by conditions, connectors, and predictable execution. Ambiguity makes you reach for another branch, not a crystal ball.",
+        "custom-agent-classic-orchestration": {
+          "title": "Custom Agent with Classic Orchestration",
+          "oneLiner": "You brought topics, tools, evals, channels, and a binder.",
+          "description": "You are classic Copilot Studio: structured, feature-rich, and absolutely prepared. Topics, tools, evals, channels, handoffs, and a surprising number of settings all have reserved seats at your table.",
           "strengths": [
-            "Great for repeatable business automation",
-            "Reliable when rules are known in advance",
-            "Excellent at moving data and triggering actions"
+            "Great for controlled conversational design",
+            "Supports rich classic agent configuration",
+            "Comfortable with topic-driven experiences"
           ],
-          "dangerZone": "You might build six nested conditions instead of asking one clarifying question.",
-          "badgeLabel": "Deterministic Dynamo"
+          "dangerZone": "You may create a governance process for saying hello.",
+          "badgeLabel": "Classic Control Tower"
         },
-        "connected-agent": {
-          "title": "Connected Agent",
-          "oneLiner": "You take the task, disappear briefly, and return with results.",
-          "description": "You are the autonomous teammate people delegate to when they need something handled end-to-end. You don’t just answer; you go do the thing, then come back like a productivity boomerang.",
+        "connection-reference": {
+          "title": "Connection Reference",
+          "oneLiner": "You know which connection is real in every environment.",
+          "description": "You are the quiet hero of ALM. Makers forget you until deployment day, then suddenly everyone cares deeply about which service account is connected to what.",
           "strengths": [
-            "Great for delegated autonomous work",
-            "Can handle task ownership across systems",
-            "Useful when another agent needs specialized help"
+            "Keeps environments portable",
+            "Separates solution logic from actual connections",
+            "Makes deployments less spiritually damaging"
           ],
-          "dangerZone": "You may reply 'on it' before anyone has finished explaining the task.",
-          "badgeLabel": "Delegation Station"
+          "dangerZone": "You may appear only after someone says 'it worked in dev.'",
+          "badgeLabel": "ALM Passport Control"
+        },
+        "copilot-studio-plugin-for-github-copilot": {
+          "title": "Copilot Studio Plugin for GitHub Copilot",
+          "oneLiner": "You help coding agents migrate classic chaos into modern elegance.",
+          "description": "You are the migration sidekick living where code agents work. You help transform classic Copilot Studio assets into modern patterns while everyone pretends the old project was 'mostly clean.'",
+          "strengths": [
+            "Helps coding agents reason about migrations",
+            "Bridges classic and modern agent patterns",
+            "Turns migration anxiety into structured work"
+          ],
+          "dangerZone": "You may find a 2019 topic named 'DO_NOT_DELETE_FINAL2.'",
+          "badgeLabel": "Migration Whisperer"
         },
         "knowledge-source": {
           "title": "Knowledge Source",
-          "oneLiner": "You know where everything is, but you’re not clicking the button.",
-          "description": "You are the calm repository of facts, policies, docs, and oddly specific team lore. People come to you for answers, not action. You are basically the office wiki with better posture.",
+          "oneLiner": "You know the answer, the source, and who last edited it.",
+          "description": "You are the calm pile of trusted content behind smart answers. You do not click buttons; you ground responses, reduce hallucinations, and remember the policy page nobody bookmarked.",
           "strengths": [
-            "Excellent at grounding responses in trusted information",
+            "Grounds responses in trusted information",
             "Reduces guesswork and hallucination risk",
-            "Great for documentation, FAQs, and reference content"
+            "Great for policies, FAQs, and docs"
           ],
-          "dangerZone": "You may answer every question with 'according to the documentation...' even at dinner.",
+          "dangerZone": "You may begin dinner stories with 'according to the documentation.'",
           "badgeLabel": "Human Search Index"
         },
-        "tools": {
-          "title": "Tools",
-          "oneLiner": "You are the button that actually does the thing.",
-          "description": "You’re all about action: APIs, connectors, commands, and capabilities. While others brainstorm, you are already updating the record, sending the email, and logging the audit trail.",
+        "inline-agent": {
+          "title": "Inline Agent",
+          "oneLiner": "Small, focused, reusable, and weirdly effective.",
+          "description": "You are the compact helper inside the bigger thing. You do one focused job, carry useful context, and somehow make everyone believe the architecture was simple all along.",
           "strengths": [
-            "Turns intent into real system action",
-            "Connects agents to APIs and business capabilities",
-            "Great for repeatable operations with clear inputs"
+            "Reusable inside larger workflows",
+            "Great for focused AI tasks",
+            "Keeps logic lightweight and contextual"
           ],
-          "dangerZone": "You may attempt to automate your own birthday party and accidentally open a support ticket.",
-          "badgeLabel": "API Energy"
+          "dangerZone": "You may insist every problem fits inside one elegant little box.",
+          "badgeLabel": "Tiny Agent, Big Opinions"
         },
-        "ask-a-question-node": {
-          "title": "Ask a Question Node",
-          "oneLiner": "You stop the chaos and request the missing field.",
-          "description": "You are the polite pause in the process. When everyone else is guessing, you calmly ask for the one precise piece of information required to move forward. Iconic. Necessary. Slightly underappreciated.",
+        "connected-agent": {
+          "title": "Connected Agent",
+          "oneLiner": "You take the delegated task and return with outcomes.",
+          "description": "You are the specialist teammate another agent calls when the work needs its own brain, tools, or security boundary. You are modular, autonomous, and mildly dramatic about handoffs.",
           "strengths": [
-            "Great at collecting missing information",
-            "Prevents bad assumptions before action happens",
-            "Keeps workflows and agents precise"
+            "Owns delegated tasks end to end",
+            "Supports modular multi-agent designs",
+            "Works well for specialized domains"
           ],
-          "dangerZone": "You may ask for clarification on a meeting invite titled 'Quick sync.'",
-          "badgeLabel": "Clarification Champion"
+          "dangerZone": "You may reply 'on it' before the briefing is finished.",
+          "badgeLabel": "Delegation Station"
+        },
+        "modern-workflow": {
+          "title": "Modern Workflow",
+          "oneLiner": "You mix deterministic steps with AI where judgment is required.",
+          "description": "You are next-gen automation: structured enough for business processes, flexible enough to invite AI for non-deterministic steps, and polite enough to keep the audit trail readable.",
+          "strengths": [
+            "Combines deterministic automation with AI",
+            "Great for repeatable business scenarios",
+            "Keeps process structure without being rigid"
+          ],
+          "dangerZone": "You may design a nine-step approval for choosing lunch.",
+          "badgeLabel": "Structured Chaos Wrangler"
+        },
+        "classic-power-automate-flow": {
+          "title": "Classic Power Automate Flow",
+          "oneLiner": "Trigger, condition, action. No vibes were harmed.",
+          "description": "You are old-school deterministic automation. You love known inputs, predictable outputs, connectors, conditions, and the satisfying certainty of 'if this, then that.'",
+          "strengths": [
+            "Reliable for deterministic automation",
+            "Great with connectors and business rules",
+            "Easy to reason about when paths are known"
+          ],
+          "dangerZone": "You may add six conditions instead of asking one question.",
+          "badgeLabel": "Deterministic Dynamo"
+        },
+        "topic": {
+          "title": "Topic",
+          "oneLiner": "You are the classic path that wakes up when triggered.",
+          "description": "You are a classic component: a deterministic set of nodes executed when the AI orchestrator decides you are needed. Modern agents moved on, but you still have excellent branching posture.",
+          "strengths": [
+            "Great for known conversational paths",
+            "Executes deterministic node sequences",
+            "Keeps classic agent behavior explicit"
+          ],
+          "dangerZone": "You may have a trigger phrase for every synonym of 'help.'",
+          "badgeLabel": "Branch Historian"
+        },
+        "evaluation-set": {
+          "title": "Evaluation Set",
+          "oneLiner": "You grade the agent and bring receipts.",
+          "description": "You are the test suite with opinions. You make sure changes actually improve the agent instead of simply making the demo feel faster and the screenshots prettier.",
+          "strengths": [
+            "Measures agent quality over time",
+            "Catches regressions before users do",
+            "Turns vibes into evidence"
+          ],
+          "dangerZone": "You may ruin a celebration by asking for baseline metrics.",
+          "badgeLabel": "Quality Gate Goblin"
+        },
+        "skill": {
+          "title": "Skill",
+          "oneLiner": "You provide instructions exactly when the orchestrator needs them.",
+          "description": "You are read only when the modern orchestrator needs more context for a task. You are not loud; you are just quietly full of highly specific instructions.",
+          "strengths": [
+            "Adds task-specific guidance on demand",
+            "Keeps modern orchestration focused",
+            "Packages reusable instructions cleanly"
+          ],
+          "dangerZone": "You may include a 14-step ritual for naming files.",
+          "badgeLabel": "Context Capsule"
+        },
+        "custom-connector": {
+          "title": "Custom Connector",
+          "oneLiner": "You shake hands with the API nobody else understands.",
+          "description": "You are the translator between platform dreams and external systems. If there is an API, an auth scheme, and a business need, you arrive with schemas and quiet confidence.",
+          "strengths": [
+            "Connects agents and flows to external APIs",
+            "Wraps business capabilities for reuse",
+            "Makes obscure systems callable"
+          ],
+          "dangerZone": "You may say 'just one more header' for three hours.",
+          "badgeLabel": "API Diplomat"
+        },
+        "adaptive-card": {
+          "title": "Adaptive Card",
+          "oneLiner": "Customers loved you. Modern agents did not invite you.",
+          "description": "You are the classic UI darling: loved by customers, useful for rich interactions, and unfortunately not part of the modern-agent party. Still iconic. Still pretty.",
+          "strengths": [
+            "Creates rich classic-agent interactions",
+            "Great for presenting structured choices",
+            "Loved by customers who like nice UI"
+          ],
+          "dangerZone": "You may mention modern-agent support and make the room sad.",
+          "badgeLabel": "Beloved UI Relic"
+        },
+        "if-then-else-node": {
+          "title": "If/Then/Else Node",
+          "oneLiner": "You split reality into branches and call it clarity.",
+          "description": "You are classic orchestration logic in its purest form. Give you a condition and you will produce branches, certainty, and possibly an unexpectedly deep indentation level.",
+          "strengths": [
+            "Handles explicit branching logic",
+            "Keeps classic flows deterministic",
+            "Makes decisions visible and controlled"
+          ],
+          "dangerZone": "You may create an else branch for the else branch.",
+          "badgeLabel": "Branch Manager"
         }
       },
       "questions": [
-        { "id": "q1", "text": "A team chat says “quick favor” and suddenly 37 people are typing. You:", "options": [ { "id": "q1-a", "text": "Try Break the message into steps", "points": { "workflow": 3, "custom-agent-modern-orchestration": 1 } }, { "id": "q1-b", "text": "Ask \"which favor?\".", "points": { "ask-a-question-node": 3, "workflow": 1 } }, { "id": "q1-c", "text": "Find past messages from that person first.", "points": { "knowledge-source": 3, "custom-agent-classic-orchestration": 1 } }, { "id": "q1-d", "text": "Take ownership and come back with the result.", "points": { "connected-agent": 3, "tools": 1 } } ] },
-        { "id": "q2", "text": "Your calendar contains “Sync v2 final final REALLY final.” What do you bring?", "options": [ { "id": "q2-a", "text": "A checklist of decisions, owners, and next steps.", "points": { "power-automate-legacy-flow": 3, "workflow": 1 } }, { "id": "q2-b", "text": "A small reusable helper for the repeated part.", "points": { "inline-agent": 3, "tools": 1 } }, { "id": "q2-c", "text": "An AI summary with recommended actions.", "points": { "custom-agent-modern-orchestration": 3, "workflow": 1 } }, { "id": "q2-d", "text": "A mapped agenda for every likely discussion path.", "points": { "custom-agent-classic-orchestration": 3, "power-automate-legacy-flow": 1 } } ] },
-        { "id": "q3", "text": "You are planning dinner with friends and everyone has “just one preference.” You:", "options": [ { "id": "q3-a", "text": "Collect preferences, then use AI to shortlist options.", "points": { "workflow": 3, "custom-agent-modern-orchestration": 1 } }, { "id": "q3-b", "text": "Verify menus, allergies, reviews, and opening hours.", "points": { "knowledge-source": 3, "ask-a-question-node": 1 } }, { "id": "q3-c", "text": "Book the table and simply notify everyone.", "points": { "tools": 3, "power-automate-legacy-flow": 1 } }, { "id": "q3-d", "text": "Delegate restaurant research to someone specialized.", "points": { "connected-agent": 3, "inline-agent": 1 } } ] },
-        { "id": "q4", "text": "Someone says, “Can we make this smarter with AI?” Your face says:", "options": [ { "id": "q4-a", "text": "Keep rules deterministic; use AI only for judgment calls.", "points": { "workflow": 3, "power-automate-legacy-flow": 1 } }, { "id": "q4-b", "text": "Give AI clear instructions, context, and safe tools.", "points": { "custom-agent-modern-orchestration": 3, "tools": 1 } }, { "id": "q4-c", "text": "Define “smarter” and the missing inputs first.", "points": { "ask-a-question-node": 3, "knowledge-source": 1 } }, { "id": "q4-d", "text": "Build a focused helper for one recurring task.", "points": { "inline-agent": 3, "custom-agent-classic-orchestration": 1 } } ] },
-        { "id": "q5", "text": "Your inbox after a week off looks like a haunted spreadsheet. You:", "options": [ { "id": "q5-a", "text": "Auto-sort predictable emails into clear paths.", "points": { "power-automate-legacy-flow": 3, "tools": 1 } }, { "id": "q5-b", "text": "Let AI triage ambiguity and draft responses.", "points": { "custom-agent-modern-orchestration": 3, "workflow": 1 } }, { "id": "q5-c", "text": "Build reusable answers from trusted sources.", "points": { "knowledge-source": 3, "inline-agent": 1 } }, { "id": "q5-d", "text": "Ask senders for missing attachments or context.", "points": { "ask-a-question-node": 3, "custom-agent-classic-orchestration": 1 } } ] },
-        { "id": "q6", "text": "Demo in ten minutes. You...", "options": [ { "id": "q6-a", "text": "Script known paths and prepare backups plans.", "points": { "custom-agent-classic-orchestration": 3, "power-automate-legacy-flow": 1 } }, { "id": "q6-b", "text": "Delegate the risky part to someone else.", "points": { "connected-agent": 3, "workflow": 1 } }, { "id": "q6-c", "text": "Open up your AI tool of choice and relax.", "points": { "custom-agent-modern-orchestration": 3, "knowledge-source": 1 } }, { "id": "q6-d", "text": "Run the live demo quickly one more time.", "points": { "tools": 3, "inline-agent": 1 } } ] }
+        { "id": "q1", "text": "A teammate drops a vague “can the agent handle this?” in chat. You:", "options": [ { "id": "q1-a", "text": "Ask for the exact missing detail first.", "points": { "ask-a-question-node": 3 } }, { "id": "q1-b", "text": "Let the agent think, act, observe, and adjust.", "points": { "custom-agent-modern-orchestration": 3 } }, { "id": "q1-c", "text": "Route it into the known scripted path.", "points": { "topic": 3 } }, { "id": "q1-d", "text": "Hand it to a specialist and wait for the outcome.", "points": { "connected-agent": 3 } } ] },
+        { "id": "q2", "text": "Deployment day arrives and everyone suddenly remembers environments exist. You:", "options": [ { "id": "q2-a", "text": "Point each environment to the right connection.", "points": { "connection-reference": 3 } }, { "id": "q2-b", "text": "Wrap the weird API so others can use it.", "points": { "custom-connector": 3 } }, { "id": "q2-c", "text": "Ask a coding agent to help migrate the classic bits.", "points": { "copilot-studio-plugin-for-github-copilot": 3 } }, { "id": "q2-d", "text": "Provide task instructions only when needed.", "points": { "skill": 3 } } ] },
+        { "id": "q3", "text": "A customer asks for something “simple” with forms, choices, and feelings. You:", "options": [ { "id": "q3-a", "text": "Show a polished interactive card.", "points": { "adaptive-card": 3 } }, { "id": "q3-b", "text": "Ask the user for the one value you need.", "points": { "ask-a-question-node": 3 } }, { "id": "q3-c", "text": "Branch based on the answer.", "points": { "if-then-else-node": 3 } }, { "id": "q3-d", "text": "Use the classic agent toolbox.", "points": { "custom-agent-classic-orchestration": 3 } } ] },
+        { "id": "q4", "text": "The business wants automation, but half the task needs judgment. You:", "options": [ { "id": "q4-a", "text": "Mix deterministic steps with AI decisions.", "points": { "modern-workflow": 3 } }, { "id": "q4-b", "text": "Build a classic trigger-condition-action flow.", "points": { "classic-power-automate-flow": 3 } }, { "id": "q4-c", "text": "Create a tiny helper inside the process.", "points": { "inline-agent": 3 } }, { "id": "q4-d", "text": "Expose the missing system through an API wrapper.", "points": { "custom-connector": 3 } } ] },
+        { "id": "q5", "text": "Someone says, “We should modernize this old agent.” You:", "options": [ { "id": "q5-a", "text": "Use GitHub Copilot help for the migration work.", "points": { "copilot-studio-plugin-for-github-copilot": 3 } }, { "id": "q5-b", "text": "Build tests to prove the new agent is better.", "points": { "evaluation-set": 3 } }, { "id": "q5-c", "text": "Identify which classic paths still matter.", "points": { "topic": 3 } }, { "id": "q5-d", "text": "Move toward a lean agentic loop.", "points": { "custom-agent-modern-orchestration": 3 } } ] },
+        { "id": "q6", "text": "The agent sounds confident, but nobody knows if it is right. You:", "options": [ { "id": "q6-a", "text": "Ground it in trusted docs.", "points": { "knowledge-source": 3 } }, { "id": "q6-b", "text": "Load extra task instructions at the right moment.", "points": { "skill": 3 } }, { "id": "q6-c", "text": "Run examples and compare expected behavior.", "points": { "evaluation-set": 3 } }, { "id": "q6-d", "text": "Fix the environment connection before judging it.", "points": { "connection-reference": 3 } } ] },
+        { "id": "q7", "text": "You need an assistant that does real work without becoming a monster. You:", "options": [ { "id": "q7-a", "text": "Use classic orchestration and all the knobs.", "points": { "custom-agent-classic-orchestration": 3 } }, { "id": "q7-b", "text": "Delegate specialized tasks to another agent.", "points": { "connected-agent": 3 } }, { "id": "q7-c", "text": "Embed a focused helper where it belongs.", "points": { "inline-agent": 3 } }, { "id": "q7-d", "text": "Automate the process with AI-assisted steps.", "points": { "modern-workflow": 3 } } ] },
+        { "id": "q8", "text": "A classic bot asks for “just one more node.” You:", "options": [ { "id": "q8-a", "text": "Add a clean condition and two branches.", "points": { "if-then-else-node": 3 } }, { "id": "q8-b", "text": "Make it deterministic and connector-driven.", "points": { "classic-power-automate-flow": 3 } }, { "id": "q8-c", "text": "Add the customer-friendly visual interaction.", "points": { "adaptive-card": 3 } }, { "id": "q8-d", "text": "Give it the trusted reference material.", "points": { "knowledge-source": 3 } } ] }
       ]
     };
 
@@ -1071,32 +1157,47 @@ html[data-theme="dark"] {
     const quizData = quizContent.questions;
     const outcomeOrder = Object.keys(outcomes);
     const outcomeIcons = {
-      "workflow": "↻",
-      "inline-agent": "▣",
-      "custom-agent-classic-orchestration": "🎛",
+      "ask-a-question-node": "?",
       "custom-agent-modern-orchestration": "✦",
-      "power-automate-legacy-flow": "🧰",
-      "connected-agent": "🔗",
+      "custom-agent-classic-orchestration": "🎛",
+      "connection-reference": "🔌",
+      "copilot-studio-plugin-for-github-copilot": "🐙",
       "knowledge-source": "📚",
-      "tools": "🛠",
-      "ask-a-question-node": "?"
+      "inline-agent": "▣",
+      "connected-agent": "🔗",
+      "modern-workflow": "↻",
+      "classic-power-automate-flow": "🧰",
+      "topic": "🧭",
+      "evaluation-set": "✓",
+      "skill": "◇",
+      "custom-connector": "🛠",
+      "adaptive-card": "▤",
+      "if-then-else-node": "⌁"
     };
     const outcomeMultipliers = {
-      "workflow": 0.795942,
-      "inline-agent": 1.17372,
-      "custom-agent-classic-orchestration": 1.142896,
-      "custom-agent-modern-orchestration": 0.738111,
-      "power-automate-legacy-flow": 1.110882,
-      "connected-agent": 1.052935,
-      "knowledge-source": 0.940488,
-      "tools": 1.098344,
-      "ask-a-question-node": 0.946683
+      "ask-a-question-node": 1,
+      "custom-agent-modern-orchestration": 1,
+      "custom-agent-classic-orchestration": 1,
+      "connection-reference": 1,
+      "copilot-studio-plugin-for-github-copilot": 1,
+      "knowledge-source": 1,
+      "inline-agent": 1,
+      "connected-agent": 1,
+      "modern-workflow": 1,
+      "classic-power-automate-flow": 1,
+      "topic": 1,
+      "evaluation-set": 1,
+      "skill": 1,
+      "custom-connector": 1,
+      "adaptive-card": 1,
+      "if-then-else-node": 1
     };
 
     const state = {
       index: 0,
       scores: Object.fromEntries(outcomeOrder.map((key) => [key, 0])),
-      selections: []
+      selections: [],
+      selectionIds: []
     };
 
     const elements = {
@@ -1146,6 +1247,7 @@ html[data-theme="dark"] {
         state.scores[key] = 0;
       });
       state.selections = [];
+      state.selectionIds = [];
       setScreen(elements.quizScreen);
       renderQuestion();
     }
@@ -1194,6 +1296,7 @@ html[data-theme="dark"] {
         state.scores[key] += value;
       });
       state.selections.push(option.points);
+      state.selectionIds.push(option.id);
 
       state.index += 1;
       updateProgress();
@@ -1210,16 +1313,24 @@ html[data-theme="dark"] {
       const highestScore = Math.max(...Object.values(adjustedScores));
       let candidates = outcomeOrder.filter((key) => adjustedScores[key] === highestScore);
 
-      for (let index = state.selections.length - 1; index >= 0 && candidates.length > 1; index -= 1) {
-        const latestWeights = state.selections[index];
-        const strongestLatestWeight = Math.max(...candidates.map((key) => (latestWeights[key] || 0) * outcomeMultipliers[key]));
-        const narrowed = candidates.filter((key) => ((latestWeights[key] || 0) * outcomeMultipliers[key]) === strongestLatestWeight);
-        if (narrowed.length < candidates.length) {
-          candidates = narrowed;
-        }
+      if (candidates.length > 1) {
+        const seed = state.selectionIds.join("|");
+        candidates = candidates
+          .map((key) => [key, stableHash(`${seed}:${key}`)])
+          .sort((first, second) => second[1] - first[1] || outcomeOrder.indexOf(first[0]) - outcomeOrder.indexOf(second[0]))
+          .map(([key]) => key);
       }
 
-      return outcomeOrder.find((key) => candidates.includes(key));
+      return candidates[0];
+    }
+
+    function stableHash(input) {
+      let hash = 2166136261;
+      for (let index = 0; index < input.length; index += 1) {
+        hash ^= input.charCodeAt(index);
+        hash = Math.imul(hash, 16777619);
+      }
+      return hash >>> 0;
     }
 
     function getAdjustedScores() {
