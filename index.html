@@ -4,6 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Copilot Studio Component Quiz</title>
+  <meta name="description" content="Take the Copilot Studio Component Quiz and discover which component you are.">
+  <meta property="og:title" content="Which Copilot Studio component are you?">
+  <meta property="og:description" content="Take the quiz and get an alarmingly specific Copilot Studio diagnosis.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Copilot Studio Component Quiz">
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
@@ -935,6 +940,7 @@ html[data-theme="dark"] {
             <p class="result-danger" id="resultDanger"></p>
             <div class="score-strip" id="scoreStrip"></div>
             <div class="result-actions">
+              <button class="primary-button" id="linkedInButton" type="button">Share on LinkedIn</button>
               <button class="primary-button" id="againButton" type="button">Retake the chaos</button>
               <button class="ghost-button" id="copyButton" type="button">Copy result</button>
             </div>
@@ -1222,6 +1228,7 @@ html[data-theme="dark"] {
       resultDanger: document.getElementById("resultDanger"),
       scoreStrip: document.getElementById("scoreStrip"),
       sparkLayer: document.getElementById("sparkLayer"),
+      linkedInButton: document.getElementById("linkedInButton"),
       againButton: document.getElementById("againButton"),
       copyButton: document.getElementById("copyButton")
     };
@@ -1340,6 +1347,7 @@ html[data-theme="dark"] {
       const adjustedScores = getAdjustedScores();
       const total = Object.values(adjustedScores).reduce((sum, score) => sum + score, 0);
       const sortedScores = Object.entries(adjustedScores).sort((first, second) => second[1] - first[1]).slice(0, 3);
+      const shareUrl = getShareUrl(winnerKey);
 
       elements.resultIcon.textContent = outcomeIcons[winnerKey];
       elements.resultTitle.textContent = winner.title;
@@ -1362,6 +1370,11 @@ html[data-theme="dark"] {
           </div>
         `;
       }).join("");
+      elements.linkedInButton.onclick = () => {
+        const linkedInUrl = new URL("https://www.linkedin.com/sharing/share-offsite/");
+        linkedInUrl.searchParams.set("url", shareUrl);
+        window.open(linkedInUrl.toString(), "_blank", "noopener,noreferrer");
+      };
 
       setScreen(elements.resultScreen);
       elements.resultCard.classList.remove("reveal");
@@ -1396,6 +1409,14 @@ html[data-theme="dark"] {
       window.setTimeout(() => {
         elements.copyButton.textContent = "Copy result";
       }, 1200);
+    }
+
+    function getShareUrl(outcomeKey) {
+      const productionBase = "https://giorgioughini.github.io/copilot-studio-component-quiz-20260701162737/";
+      const base = window.location.hostname.endsWith("github.io")
+        ? new URL("./", window.location.href).href
+        : productionBase;
+      return new URL(`share/${outcomeKey}/`, base).href;
     }
 
     elements.startButton.addEventListener("click", startQuiz);
