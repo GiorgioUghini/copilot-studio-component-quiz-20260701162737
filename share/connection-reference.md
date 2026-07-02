@@ -1,10 +1,9 @@
 ---
 layout: share
 permalink: /share/connection-reference/
-title: I am a Connection Reference
+title: "I'm a Connection Reference"
 component: Connection Reference
-description: 'I know which connection is real in every environment.'
+description: "I took the Copilot Studio personality test and I am a Connection Reference. Which component would you be?"
 badge: ALM Passport Control
 icon: '🔌'
 ---
-

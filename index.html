@@ -17,6 +17,13 @@
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
+  <script>
+    (() => {
+      if (!new URLSearchParams(window.location.search).has("clawpilotTheme")) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
   <style>
 :root {
   color-scheme: light;
@@ -84,9 +91,9 @@ html[data-theme="dark"] {
       margin: 0;
       overflow-x: hidden;
       background:
-        radial-gradient(circle at top left, var(--cp-highlight), transparent 34rem),
-        radial-gradient(circle at bottom right, color-mix(in srgb, var(--cp-link) 12%, transparent), transparent 30rem),
-        linear-gradient(135deg, var(--cp-bg), var(--cp-bg-elevated));
+        radial-gradient(circle at 72% 42%, color-mix(in srgb, var(--cp-link) 11%, transparent), transparent 34rem),
+        radial-gradient(circle at 90% 78%, color-mix(in srgb, var(--cp-success) 10%, transparent), transparent 26rem),
+        linear-gradient(105deg, color-mix(in srgb, var(--cp-link) 4%, var(--cp-surface)) 0 34%, var(--cp-surface) 34% 100%);
       color: var(--cp-text);
       font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -101,10 +108,23 @@ html[data-theme="dark"] {
     .app {
       position: relative;
       min-height: 100vh;
-      padding: clamp(1rem, 3vw, 2rem);
+      padding: clamp(1rem, 4vw, 3rem);
       display: grid;
       place-items: center;
       isolation: isolate;
+    }
+
+    .app::before {
+      content: "";
+      position: fixed;
+      inset: auto -10% 18% -10%;
+      height: 9rem;
+      transform: rotate(-3deg);
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cp-link) 9%, transparent), color-mix(in srgb, var(--cp-success) 8%, transparent), transparent);
+      filter: blur(1rem);
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: -2;
     }
 
     .ambient {
@@ -120,11 +140,11 @@ html[data-theme="dark"] {
       width: clamp(9rem, 22vw, 18rem);
       aspect-ratio: 1;
       border-radius: 50%;
-      background: color-mix(in srgb, var(--cp-accent) 18%, transparent);
-      border: 1px solid color-mix(in srgb, var(--cp-accent) 28%, transparent);
-      filter: blur(0.5rem);
-      opacity: 0.72;
-      animation: drift 18s ease-in-out infinite alternate;
+      background: color-mix(in srgb, var(--cp-link) 13%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cp-link) 18%, transparent);
+      filter: blur(1.6rem);
+      opacity: 0.42;
+      animation: drift 22s ease-in-out infinite alternate;
     }
 
     .orb:nth-child(1) {
@@ -158,57 +178,62 @@ html[data-theme="dark"] {
         linear-gradient(90deg, var(--cp-border) 1px, transparent 1px);
       background-size: 3rem 3rem;
       mask-image: radial-gradient(circle, currentColor, transparent 64%);
-      opacity: 0.16;
+      opacity: 0.08;
       z-index: -3;
     }
 
     .shell {
-      width: min(100%, 62rem);
+      width: min(100%, 68rem);
     }
 
     .hero {
       display: grid;
-      gap: 1.25rem;
+      gap: 1rem;
+      justify-items: center;
       text-align: center;
       margin-bottom: 1.5rem;
-      animation: rise-in 700ms ease both;
+      animation: rise-in 900ms cubic-bezier(.16,1,.3,1) both;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      justify-self: center;
-      padding: 0.375rem 0.75rem;
-      border: 1px solid var(--cp-border);
+      justify-self: start;
+      padding: 0.5rem 0.875rem;
+      border: 1px solid color-mix(in srgb, var(--cp-surface) 72%, var(--cp-border));
       border-radius: 999px;
       color: var(--cp-text-muted);
-      background: var(--cp-panel);
-      box-shadow: var(--cp-shadow);
+      background: color-mix(in srgb, var(--cp-panel-strong) 78%, transparent);
+      box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent);
       font-size: 0.875rem;
+      backdrop-filter: blur(1rem);
     }
 
     .pulse-dot {
       width: 0.625rem;
       height: 0.625rem;
       border-radius: 50%;
-      background: var(--cp-accent);
-      box-shadow: 0 0 0 0 color-mix(in srgb, var(--cp-accent) 34%, transparent);
+      background: var(--cp-link);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--cp-link) 28%, transparent);
       animation: pulse 1.6s ease infinite;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(2.25rem, 7vw, 5.75rem);
-      letter-spacing: -0.07em;
-      line-height: 0.92;
+      max-width: 52rem;
+      justify-self: center;
+      font-size: clamp(3rem, 8vw, 6.25rem);
+      letter-spacing: -0.065em;
+      line-height: 0.96;
+      color: var(--cp-text);
+      filter: none;
     }
 
     .headline-accent {
       display: inline-block;
-      color: var(--cp-accent);
+      color: var(--cp-link);
       transform-origin: center;
-      animation: wobble 4.5s ease-in-out infinite;
     }
 
     .subtitle {
@@ -223,14 +248,15 @@ html[data-theme="dark"] {
     .stage {
       position: relative;
       min-height: 35rem;
-      padding: clamp(1rem, 3vw, 2rem);
+      padding: clamp(1rem, 3vw, 2.25rem);
       border: 1px solid var(--cp-border);
       border-radius: 16px;
       background:
-        linear-gradient(135deg, var(--cp-panel-strong), var(--cp-panel)),
-        radial-gradient(circle at top, var(--cp-sheen), transparent 20rem);
-      box-shadow: var(--cp-shadow);
+        radial-gradient(circle at 76% 52%, color-mix(in srgb, var(--cp-link) 8%, transparent), transparent 24rem),
+        var(--cp-surface);
+      box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent), 0 1.5rem 3.5rem color-mix(in srgb, var(--cp-text) 8%, transparent);
       overflow: hidden;
+      backdrop-filter: blur(1.5rem) saturate(1.08);
     }
 
     .stage::before {
@@ -238,9 +264,26 @@ html[data-theme="dark"] {
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 18% 18%, var(--cp-highlight), transparent 16rem),
-        radial-gradient(circle at 82% 74%, color-mix(in srgb, var(--cp-link) 10%, transparent), transparent 16rem);
-      opacity: 0.8;
+        radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--cp-success) 8%, transparent), transparent 18rem),
+        radial-gradient(circle at 82% 74%, color-mix(in srgb, var(--cp-link) 8%, transparent), transparent 18rem);
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .stage::after {
+      content: "";
+      position: absolute;
+      right: -10%;
+      top: 8%;
+      width: 44%;
+      height: 72%;
+      border: 1px solid color-mix(in srgb, var(--cp-surface) 72%, var(--cp-border));
+      border-radius: 16px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--cp-surface) 62%, transparent), transparent),
+        radial-gradient(circle at 78% 18%, color-mix(in srgb, var(--cp-link) 14%, transparent), transparent 10rem);
+      transform: rotate(-7deg);
+      opacity: 0.28;
       pointer-events: none;
     }
 
@@ -253,7 +296,7 @@ html[data-theme="dark"] {
 
     .screen.active {
       display: grid;
-      animation: card-in 520ms cubic-bezier(.2,.9,.2,1) both;
+      animation: card-in 680ms cubic-bezier(.16,1,.3,1) both;
     }
 
     .welcome-screen {
@@ -275,12 +318,14 @@ html[data-theme="dark"] {
       display: inline-flex;
       align-items: center;
       gap: 0.375rem;
-      padding: 0.5rem 0.75rem;
-      border: 1px solid var(--cp-border);
+      padding: 0.625rem 0.875rem;
+      border: 1px solid color-mix(in srgb, var(--cp-surface) 72%, var(--cp-border));
       border-radius: 999px;
-      background: var(--cp-surface);
+      background: color-mix(in srgb, var(--cp-panel-strong) 84%, transparent);
       color: var(--cp-text-muted);
       font-size: 0.875rem;
+      box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 10%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 10%, transparent);
+      backdrop-filter: blur(1rem);
       animation: float-chip 4.4s ease-in-out infinite;
     }
 
@@ -297,9 +342,9 @@ html[data-theme="dark"] {
     .answer-button {
       position: relative;
       border: 1px solid var(--cp-border);
-      border-radius: 0.625rem;
+      border-radius: 999px;
       cursor: pointer;
-      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+      transition: transform 220ms cubic-bezier(.16,1,.3,1), border-color 220ms ease, background 220ms ease, box-shadow 220ms ease;
       overflow: hidden;
     }
 
@@ -326,19 +371,37 @@ html[data-theme="dark"] {
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
-      padding: 1rem 1.25rem;
-      background: var(--cp-accent);
+      padding: 1rem 1.35rem;
+      background: var(--cp-link);
       color: var(--cp-accent-fg);
-      border-color: color-mix(in srgb, var(--cp-accent) 72%, var(--cp-border));
-      box-shadow: var(--cp-shadow);
+      border-color: color-mix(in srgb, var(--cp-link) 72%, var(--cp-border));
+      box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent), 0 0.875rem 1.75rem color-mix(in srgb, var(--cp-link) 14%, transparent);
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
     .primary-button:hover {
       transform: translateY(-2px) scale(1.02);
-      background: var(--cp-accent-hover);
+      background: color-mix(in srgb, var(--cp-link) 86%, var(--cp-text));
+    }
+
+    .linkedin-button {
+      background: var(--cp-link);
+      border-color: color-mix(in srgb, var(--cp-link) 72%, var(--cp-border));
+      color: var(--cp-accent-fg);
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    .linkedin-button:hover {
+      background: color-mix(in srgb, var(--cp-link) 86%, var(--cp-text));
+    }
+
+    .linkedin-logo {
+      width: 1.1rem;
+      height: 1.1rem;
+      flex: 0 0 auto;
     }
 
     .primary-button:active {
@@ -349,10 +412,11 @@ html[data-theme="dark"] {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.875rem 1rem;
-      background: var(--cp-surface);
+      padding: 0.875rem 1.1rem;
+      background: color-mix(in srgb, var(--cp-panel-strong) 88%, transparent);
       color: var(--cp-text);
       font-weight: 700;
+      backdrop-filter: blur(1rem);
     }
 
     .ghost-button:hover {
@@ -383,16 +447,17 @@ html[data-theme="dark"] {
     }
 
     .progress-percent {
-      color: var(--cp-accent);
+      color: var(--cp-link);
       font-weight: 800;
     }
 
     .progress-shell {
-      height: 0.75rem;
-      border: 1px solid var(--cp-border);
+      height: 0.625rem;
+      border: 1px solid color-mix(in srgb, var(--cp-surface) 60%, var(--cp-border));
       border-radius: 999px;
-      background: var(--cp-surface-soft);
+      background: color-mix(in srgb, var(--cp-surface-soft) 72%, transparent);
       overflow: hidden;
+      box-shadow: inset 0 0 0.6rem color-mix(in srgb, var(--cp-text) 6%, transparent);
     }
 
     .progress-fill {
@@ -400,8 +465,8 @@ html[data-theme="dark"] {
       height: 100%;
       border-radius: inherit;
       background:
-        linear-gradient(90deg, var(--cp-accent), color-mix(in srgb, var(--cp-accent) 70%, var(--cp-warning)));
-      transition: width 420ms cubic-bezier(.2,.9,.2,1);
+        linear-gradient(90deg, var(--cp-link), color-mix(in srgb, var(--cp-success) 44%, var(--cp-link)));
+      transition: width 560ms cubic-bezier(.16,1,.3,1);
     }
 
     .question-card {
@@ -409,20 +474,23 @@ html[data-theme="dark"] {
       align-content: center;
       gap: 1.25rem;
       min-height: 25rem;
-      padding: clamp(1rem, 3vw, 1.75rem);
-      border: 1px solid var(--cp-border);
+      padding: clamp(1rem, 3vw, 2rem);
+      border: 1px solid color-mix(in srgb, var(--cp-surface) 72%, var(--cp-border));
       border-radius: 16px;
-      background: var(--cp-panel-strong);
-      box-shadow: var(--cp-shadow);
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--cp-link) 6%, transparent), transparent 16rem),
+        var(--cp-surface);
+      box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent);
+      backdrop-filter: blur(1rem);
     }
 
     .question-card.swap {
-      animation: question-swap 430ms ease both;
+      animation: question-swap 520ms cubic-bezier(.16,1,.3,1) both;
     }
 
     .question-kicker {
       margin: 0;
-      color: var(--cp-accent);
+      color: var(--cp-link);
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -445,18 +513,23 @@ html[data-theme="dark"] {
     .answer-button {
       display: grid;
       grid-template-columns: auto 1fr;
+      align-items: center;
       gap: 0.75rem;
       min-height: 4.5rem;
-      padding: 0.875rem;
+      padding: 1rem;
       text-align: left;
       color: var(--cp-text);
-      background: var(--cp-surface);
+      background: color-mix(in srgb, var(--cp-surface) 84%, transparent);
+      border-color: color-mix(in srgb, var(--cp-surface) 66%, var(--cp-border));
+      border-radius: 16px;
+      backdrop-filter: blur(0.8rem);
     }
 
     .answer-button:hover {
-      transform: translateY(-1px);
-      border-color: color-mix(in srgb, var(--cp-accent) 40%, var(--cp-border));
-      background: color-mix(in srgb, var(--cp-accent) 6%, var(--cp-surface));
+      transform: translateY(-0.25rem);
+      border-color: color-mix(in srgb, var(--cp-link) 36%, var(--cp-border));
+      background: color-mix(in srgb, var(--cp-link) 6%, var(--cp-surface));
+      box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1rem 2rem color-mix(in srgb, var(--cp-text) 8%, transparent);
     }
 
     .answer-button:active {
@@ -464,19 +537,21 @@ html[data-theme="dark"] {
     }
 
     .answer-letter {
+      align-self: center;
       width: 2rem;
       height: 2rem;
-      border-radius: 0.625rem;
+      border-radius: 0.875rem;
       display: grid;
       place-items: center;
-      color: var(--cp-accent);
-      background: var(--cp-accent-soft);
-      border: 1px solid color-mix(in srgb, var(--cp-accent) 28%, transparent);
+      color: var(--cp-link);
+      background: color-mix(in srgb, var(--cp-link) 9%, var(--cp-surface));
+      border: 1px solid color-mix(in srgb, var(--cp-link) 22%, var(--cp-border));
       font-weight: 800;
     }
 
     .answer-copy {
       display: grid;
+      align-self: center;
       gap: 0.25rem;
     }
 
@@ -505,10 +580,11 @@ html[data-theme="dark"] {
       border: 1px solid var(--cp-border);
       border-radius: 16px;
       background:
-        radial-gradient(circle at top, var(--cp-highlight), transparent 18rem),
-        var(--cp-panel-strong);
-      box-shadow: var(--cp-shadow);
+        radial-gradient(circle at top, color-mix(in srgb, var(--cp-link) 8%, transparent), transparent 18rem),
+        var(--cp-surface);
+      box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent), 0 2rem 5rem color-mix(in srgb, var(--cp-text) 10%, transparent);
       overflow: hidden;
+      backdrop-filter: blur(1.5rem);
     }
 
     .result-card.reveal {
@@ -522,11 +598,11 @@ html[data-theme="dark"] {
       display: grid;
       place-items: center;
       border-radius: 16px;
-      border: 1px solid color-mix(in srgb, var(--cp-accent) 34%, var(--cp-border));
+      border: 1px solid color-mix(in srgb, var(--cp-link) 28%, var(--cp-border));
       background:
-        linear-gradient(135deg, var(--cp-accent-soft), var(--cp-surface)),
+        linear-gradient(135deg, color-mix(in srgb, var(--cp-link) 12%, var(--cp-surface)), color-mix(in srgb, var(--cp-success) 10%, var(--cp-surface))),
         radial-gradient(circle at top left, var(--cp-sheen), transparent 70%);
-      color: var(--cp-accent);
+      color: var(--cp-link);
       font-size: 2.5rem;
       animation: icon-bounce 1.2s ease infinite alternate;
     }
@@ -540,7 +616,7 @@ html[data-theme="dark"] {
 
     .result-title {
       margin: 0.25rem 0;
-      color: var(--cp-accent);
+      color: var(--cp-link);
       font-size: clamp(2.25rem, 6vw, 4.4rem);
       line-height: 0.95;
       letter-spacing: -0.07em;
@@ -568,10 +644,10 @@ html[data-theme="dark"] {
       justify-content: center;
       margin-top: 1rem;
       padding: 0.5rem 0.75rem;
-      border: 1px solid color-mix(in srgb, var(--cp-accent) 36%, var(--cp-border));
+      border: 1px solid color-mix(in srgb, var(--cp-link) 32%, var(--cp-border));
       border-radius: 999px;
-      background: var(--cp-accent-soft);
-      color: var(--cp-accent);
+      background: color-mix(in srgb, var(--cp-link) 8%, var(--cp-surface));
+      color: var(--cp-link);
       font-weight: 900;
     }
 
@@ -630,7 +706,7 @@ html[data-theme="dark"] {
 
     .score-value {
       display: block;
-      color: var(--cp-accent);
+      color: var(--cp-link);
       font-size: 1.35rem;
       font-weight: 900;
     }
@@ -663,7 +739,7 @@ html[data-theme="dark"] {
       width: 0.7rem;
       height: 1rem;
       border-radius: 0.25rem;
-      background: var(--cp-accent);
+      background: var(--cp-link);
       opacity: 0;
       animation: spark-burst 920ms ease-out forwards;
     }
@@ -699,6 +775,15 @@ html[data-theme="dark"] {
       font-size: 0.78rem;
       z-index: -1;
       opacity: 0;
+    }
+
+    .disclaimer {
+      position: relative;
+      margin: 1rem auto 0;
+      color: var(--cp-text-soft);
+      font-size: 0.78rem;
+      text-align: center;
+      z-index: 1;
     }
 
     @media (max-width: 720px) {
@@ -895,7 +980,6 @@ html[data-theme="dark"] {
 
     <section class="shell" aria-labelledby="page-title">
       <header class="hero">
-        <div class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> Personality science, but make it Copilot Studio</div>
         <h1 id="page-title">Which Copilot Studio <span class="headline-accent">component</span> are you?</h1>
         <p class="subtitle">Answer deeply unserious questions. Receive an alarmingly specific architectural diagnosis. No tenant admin permissions required.</p>
       </header>
@@ -940,7 +1024,12 @@ html[data-theme="dark"] {
             <p class="result-danger" id="resultDanger"></p>
             <div class="score-strip" id="scoreStrip"></div>
             <div class="result-actions">
-              <button class="primary-button" id="linkedInButton" type="button">Share on LinkedIn</button>
+              <button class="primary-button linkedin-button" id="linkedInButton" type="button">
+                <svg class="linkedin-logo" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.35 8h4.3v14H.35V8Zm7.4 0h4.12v1.91h.06c.57-1.08 1.98-2.22 4.08-2.22 4.36 0 5.17 2.87 5.17 6.6V22h-4.3v-6.84c0-1.63-.03-3.72-2.27-3.72-2.27 0-2.62 1.77-2.62 3.6V22h-4.3V8Z"/>
+                </svg>
+                Share on LinkedIn
+              </button>
               <button class="primary-button" id="againButton" type="button">Retake the chaos</button>
               <button class="ghost-button" id="copyButton" type="button">Copy result</button>
             </div>
@@ -948,6 +1037,7 @@ html[data-theme="dark"] {
         </section>
       </div>
     </section>
+    <p class="disclaimer">Just a joke. Not affiliated with Microsoft.</p>
     <p class="motion-note">Animated locally with CSS and JavaScript only.</p>
   </main>
 
@@ -1096,7 +1186,7 @@ html[data-theme="dark"] {
             "Turns vibes into evidence"
           ],
           "dangerZone": "You may ruin a celebration by asking for baseline metrics.",
-          "badgeLabel": "Quality Gate Goblin"
+          "badgeLabel": "Quality Gatekeeper"
         },
         "skill": {
           "title": "Skill",
@@ -1372,8 +1462,19 @@ html[data-theme="dark"] {
         `;
       }).join("");
       elements.linkedInButton.onclick = () => {
-        const linkedInUrl = new URL("https://www.linkedin.com/sharing/share-offsite/");
+        const postText = `I just took a test to discover which Copilot Studio component I am, and the result is that I'm a ${winner.title}. Come take the test!`;
+        navigator.clipboard?.writeText(postText).then(() => {
+          elements.linkedInButton.lastChild.textContent = " Text copied";
+          window.setTimeout(() => {
+            elements.linkedInButton.lastChild.textContent = " Share on LinkedIn";
+          }, 1600);
+        }).catch(() => {});
+        const linkedInUrl = new URL("https://www.linkedin.com/shareArticle");
+        linkedInUrl.searchParams.set("mini", "true");
         linkedInUrl.searchParams.set("url", shareUrl);
+        linkedInUrl.searchParams.set("title", `I'm a ${winner.title}`);
+        linkedInUrl.searchParams.set("summary", postText);
+        linkedInUrl.searchParams.set("source", "Copilot Studio Component Quiz");
         window.open(linkedInUrl.toString(), "_blank", "noopener,noreferrer");
       };
 

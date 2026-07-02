@@ -1,10 +1,9 @@
 ---
 layout: share
 permalink: /share/knowledge-source/
-title: I am a Knowledge Source
+title: "I'm a Knowledge Source"
 component: Knowledge Source
-description: 'I know the answer, the source, and who last edited it.'
+description: "I took the Copilot Studio personality test and I am a Knowledge Source. Which component would you be?"
 badge: Human Search Index
 icon: '📚'
 ---
-

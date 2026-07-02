@@ -1,10 +1,9 @@
 ---
 layout: share
 permalink: /share/custom-connector/
-title: I am a Custom Connector
+title: "I'm a Custom Connector"
 component: Custom Connector
-description: 'I shake hands with the API nobody else understands.'
+description: "I took the Copilot Studio personality test and I am a Custom Connector. Which component would you be?"
 badge: API Diplomat
 icon: '🛠'
 ---
-

@@ -1,10 +1,9 @@
 ---
 layout: share
 permalink: /share/adaptive-card/
-title: I am an Adaptive Card
+title: "I'm an Adaptive Card"
 component: Adaptive Card
-description: 'Customers loved me. Modern agents did not invite me.'
+description: "I took the Copilot Studio personality test and I am an Adaptive Card. Which component would you be?"
 badge: Beloved UI Relic
 icon: '▤'
 ---
-

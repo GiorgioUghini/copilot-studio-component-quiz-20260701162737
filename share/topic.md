@@ -1,10 +1,9 @@
 ---
 layout: share
 permalink: /share/topic/
-title: I am a Topic
+title: "I'm a Topic"
 component: Topic
-description: 'I am the classic path that wakes up when triggered.'
+description: "I took the Copilot Studio personality test and I am a Topic. Which component would you be?"
 badge: Branch Historian
 icon: '🧭'
 ---
-

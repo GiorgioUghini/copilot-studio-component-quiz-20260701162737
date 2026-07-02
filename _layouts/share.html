@@ -18,6 +18,13 @@
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
+  <script>
+    (() => {
+      if (!new URLSearchParams(window.location.search).has("clawpilotTheme")) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
   <style>
 :root {
   color-scheme: light;
@@ -81,19 +88,23 @@ body {
   place-items: center;
   padding: clamp(1rem, 4vw, 2rem);
   background:
-    radial-gradient(circle at top left, var(--cp-highlight), transparent 32rem),
-    linear-gradient(135deg, var(--cp-bg), var(--cp-bg-elevated));
+    radial-gradient(circle at 72% 42%, color-mix(in srgb, var(--cp-link) 11%, transparent), transparent 34rem),
+    radial-gradient(circle at 90% 78%, color-mix(in srgb, var(--cp-success) 10%, transparent), transparent 26rem),
+    linear-gradient(105deg, color-mix(in srgb, var(--cp-link) 4%, var(--cp-surface)) 0 34%, var(--cp-surface) 34% 100%);
   color: var(--cp-text);
   font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 .card {
   width: min(100%, 42rem);
   padding: clamp(1.25rem, 5vw, 2.5rem);
-  border: 1px solid var(--cp-border);
+  border: 1px solid color-mix(in srgb, var(--cp-surface) 72%, var(--cp-border));
   border-radius: 16px;
-  background: var(--cp-panel-strong);
-  box-shadow: var(--cp-shadow);
+  background:
+    radial-gradient(circle at top, color-mix(in srgb, var(--cp-link) 8%, transparent), transparent 18rem),
+    var(--cp-surface);
+  box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent), 0 2rem 5rem color-mix(in srgb, var(--cp-text) 10%, transparent);
   text-align: center;
+  backdrop-filter: blur(1.5rem);
 }
 .eyebrow {
   margin: 0 0 0.75rem;
@@ -106,15 +117,15 @@ body {
   display: grid;
   place-items: center;
   margin: 0 auto 1rem;
-  border: 1px solid color-mix(in srgb, var(--cp-accent) 34%, var(--cp-border));
+  border: 1px solid color-mix(in srgb, var(--cp-link) 28%, var(--cp-border));
   border-radius: 16px;
-  background: var(--cp-accent-soft);
-  color: var(--cp-accent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--cp-link) 12%, var(--cp-surface)), color-mix(in srgb, var(--cp-success) 10%, var(--cp-surface)));
+  color: var(--cp-link);
   font-size: 2rem;
 }
 h1 {
   margin: 0;
-  color: var(--cp-accent);
+  color: var(--cp-link);
   font-size: clamp(2rem, 8vw, 4rem);
   line-height: 0.95;
   letter-spacing: -0.06em;
@@ -130,22 +141,28 @@ h1 {
   display: inline-flex;
   margin-top: 1rem;
   padding: 0.5rem 0.75rem;
-  border: 1px solid color-mix(in srgb, var(--cp-accent) 36%, var(--cp-border));
+  border: 1px solid color-mix(in srgb, var(--cp-link) 32%, var(--cp-border));
   border-radius: 999px;
-  background: var(--cp-accent-soft);
-  color: var(--cp-accent);
+  background: color-mix(in srgb, var(--cp-link) 8%, var(--cp-surface));
+  color: var(--cp-link);
   font-weight: 900;
 }
 .button {
   display: inline-flex;
   margin-top: 1.25rem;
   padding: 0.875rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--cp-accent) 72%, var(--cp-border));
-  border-radius: 0.625rem;
-  background: var(--cp-accent);
+  border: 1px solid color-mix(in srgb, var(--cp-link) 72%, var(--cp-border));
+  border-radius: 999px;
+  background: var(--cp-link);
   color: var(--cp-accent-fg);
   text-decoration: none;
   font-weight: 800;
+  box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1rem 2rem color-mix(in srgb, var(--cp-link) 14%, transparent);
+}
+.disclaimer {
+  margin: 1rem 0 0;
+  color: var(--cp-text-soft);
+  font-size: 0.78rem;
 }
   </style>
 </head>
@@ -157,8 +174,8 @@ h1 {
     <p class="description">{{ page.description }}</p>
     <div class="badge">{{ page.badge }}</div>
     <br>
-    <a class="button" href="{{ '/' | relative_url }}">Take the quiz</a>
+    <a class="button" href="{{ '/' | relative_url }}">Take the test yourself</a>
+    <p class="disclaimer">Just a joke. Not affiliated with Microsoft.</p>
   </main>
 </body>
 </html>
-
