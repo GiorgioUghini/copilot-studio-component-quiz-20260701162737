@@ -9,6 +9,12 @@
   <meta property="og:description" content="Take the quiz and get an alarmingly specific Copilot Studio diagnosis.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Copilot Studio Component Quiz">
+  <meta property="og:image" content="https://giorgioughini.github.io/copilot-studio-component-quiz-20260701162737/assets/linkedin-preview.png">
+  <meta property="og:image:secure_url" content="https://giorgioughini.github.io/copilot-studio-component-quiz-20260701162737/assets/linkedin-preview.png">
+  <meta property="og:image:width" content="1232">
+  <meta property="og:image:height" content="648">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://giorgioughini.github.io/copilot-studio-component-quiz-20260701162737/assets/linkedin-preview.png">
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
@@ -536,6 +542,15 @@ html[data-theme="dark"] {
       transform: translateY(1px);
     }
 
+    .answer-button:focus {
+      outline: none;
+    }
+
+    .answer-button:focus-visible {
+      border-color: color-mix(in srgb, var(--cp-link) 48%, var(--cp-border));
+      box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--cp-link) 18%, transparent);
+    }
+
     .answer-letter {
       align-self: center;
       width: 2rem;
@@ -854,6 +869,36 @@ html[data-theme="dark"] {
 
       .result-actions {
         display: grid;
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .primary-button:hover::after,
+      .ghost-button:hover::after,
+      .answer-button:hover::after {
+        transform: translateX(-130%) rotate(18deg);
+      }
+
+      .answer-button:hover {
+        transform: none;
+        border-color: color-mix(in srgb, var(--cp-surface) 66%, var(--cp-border));
+        background: color-mix(in srgb, var(--cp-surface) 84%, transparent);
+        box-shadow: none;
+      }
+
+      .primary-button:hover {
+        transform: none;
+        background: var(--cp-link);
+      }
+
+      .ghost-button:hover {
+        transform: none;
+        border-color: var(--cp-border);
+        background: color-mix(in srgb, var(--cp-panel-strong) 88%, transparent);
+      }
+
+      .linkedin-button:hover {
+        background: var(--cp-link);
       }
     }
 
